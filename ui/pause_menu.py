@@ -6,9 +6,11 @@ class PauseMenu:
         self.screen = screen
         self.game = game
         self.font = pygame.font.Font(None, 36)
-        self.running = True
+        self.running = False
 
     def run(self):
+        self.game.running = False
+        self.running = True
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -28,34 +30,17 @@ class PauseMenu:
         # Возобновление игры
         print("Resuming game...")
         self.running = False
+        self.game.running = True
 
     def restart_game(self):
         # Перезапуск игры
         print("Restarting game...")
-        self.running = False
-        self.run_game()
 
     def return_to_main_menu(self):
         # Возврат в главное меню
         print("Returning to main menu...")
         self.running = False
         self.game.running = False
-
-    def run_game(self):
-        # Простой игровой цикл для тестирования
-        running = True
-        clock = pygame.time.Clock()
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_p:
-                        self.pause_game()
-
-            self.screen.fill((0, 0, 0))  # Очистка экрана
-            pygame.display.flip()
-            clock.tick(60)
 
     def pause_game(self):
         # Пауза игры

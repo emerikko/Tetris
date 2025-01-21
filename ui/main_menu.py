@@ -7,22 +7,24 @@ from ui.score_table import ScoreTable
 
 class MainMenu:
     def __init__(self, screen):
+        print('Initializing main menu...')
         self.screen = screen
         self.font = pygame.font.Font(None, 36)
+        self.running = False
 
     def run(self):
-        running = True
-        while running:
+        self.running = True
+        while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
+                    self.running = False
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_1:
                         self.run_game()
                     elif event.key == pygame.K_2:
                         self.show_score_table()
                     elif event.key == pygame.K_3:
-                        running = False
+                        self.running = False
 
             self.draw_menu()
             pygame.display.flip()
@@ -35,8 +37,8 @@ class MainMenu:
     def run_game(self):
         # Запуск игры
         print("Starting new game...")
-        processor = GameProcessor(None, None, None, None, None, None, None, None)
-
+        processor = GameProcessor(self, self.screen)
+        processor.run()
 
     def pause_game(self):
         # Пауза игры

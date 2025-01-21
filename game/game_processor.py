@@ -1,18 +1,27 @@
 import pygame
 
+from data.settings import Settings
+from game.game_logic import GameLogic
+from graphics.drawing import Drawing
+from sound.audio import Audio
+from ui.pause_menu import PauseMenu
+from ui.score_table import ScoreTable
+
 
 class GameProcessor:
-    def __init__(self, game_logic, audio, settings, drawing, score_table, pause_menu, main_menu):
-        self.game_logic = game_logic
-        self.audio = audio
-        self.settings = settings
-        self.drawing = drawing
-        self.score_table = score_table
-        self.pause_menu = pause_menu
+    def __init__(self, main_menu, screen):
         self.main_menu = main_menu
+        self.screen = screen
+        self.game_logic = GameLogic()
+        self.audio = Audio()
+        self.settings = Settings()
+        self.drawing = Drawing(screen)
+        self.score_table = ScoreTable(screen)
+        self.pause_menu = PauseMenu(screen, self)
         self.running = True
 
     def run(self):
+        self.main_menu.running = False
         clock = pygame.time.Clock()
         while self.running:
             for event in pygame.event.get():
@@ -20,13 +29,15 @@ class GameProcessor:
                     self.running = False
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_p or event.key == pygame.K_ESCAPE:
-                        self.pause_game()
+                        self.pause()
 
-            drawing.draw_board(self.game.board)
-            drawing.draw_shape(self.game.current_shape, self.game.current_shape_offset)
-            drawing.draw_ui(self.game.score, self.game.level, self.game.next_shape)
-
+            self.drawing.draw_board(self.game_logic.board)
+            # self.drawing.draw_shape(self.game_logic.current_shape, self.game_logic.current_shape_offset)
+            self.drawing.draw_ui(self.game_logic.score, self.game_logic.level, self.game_logic.next_shape)
 
             self.screen.fill((0, 0, 0))  # Очистка экрана
             pygame.display.flip()
             clock.tick(60)
+
+    def pause(self):
+        self.pause_menu.run()

@@ -5,6 +5,7 @@ class GameLogic:
         self.current_shape = None
         self.next_shape = None
         self.board = [[0] * 10 for _ in range(20)]
+        print(self.board)
 
     def update(self):
         # Логика падения фигур, проверка заполненных линий и т.д.
