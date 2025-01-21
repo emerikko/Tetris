@@ -19,3 +19,4 @@ class Records:
         with open(self.filename, mode='w', newline='') as file:
             writer = csv.writer(file)
             writer.writerows(self.records[:10])  # Сохраняем только топ-10 рекордов
+            

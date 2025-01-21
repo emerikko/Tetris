@@ -35,12 +35,16 @@ class PauseMenu:
     def restart_game(self):
         # Перезапуск игры
         print("Restarting game...")
+        self.running = False
+        self.game.restart()
+        self.game.running = True
 
     def return_to_main_menu(self):
         # Возврат в главное меню
         print("Returning to main menu...")
         self.running = False
         self.game.running = False
+        self.game.main_menu.run()
 
     def pause_game(self):
         # Пауза игры
