@@ -2,6 +2,7 @@ import pygame
 
 import random
 
+
 class GameLogic:
     def __init__(self):
         self.score = 0
@@ -11,9 +12,11 @@ class GameLogic:
         self.shapes = [
             [[True, True], [True, True]],
             [[True, True, False], [False, True, True]],
-            [[True, True, True, True]],
+            [[True], [True], [True], [True]],
             [[False, True, True], [True, True, False]],
-            [[False, True, False], [True, True, True]]
+            [[False, True, False], [True, True, True]],
+            [[True, True, True], [True, False, False]],
+            [[True, True, True], [False, False, True]]
         ]
         self.current_shape = None
         self.next_shape = random.choice(self.shapes)
@@ -23,9 +26,12 @@ class GameLogic:
             if not self.generate_new_shape():
                 return False  # Игра окончена
 
+        return True
+
+    def move_down(self):
         # Передвижение текущей фигуры вниз
         self.current_shape_offset = (self.current_shape_offset[0], self.current_shape_offset[1] + 1)
-        
+
         # Проверка коллизии
         if self.check_collision():
             self.current_shape_offset = (self.current_shape_offset[0], self.current_shape_offset[1] - 1)
@@ -33,9 +39,9 @@ class GameLogic:
             self.clear_lines()
             if not self.generate_new_shape():
                 return False  # Игра окончена
-        
+
         return True
-    
+
     def generate_new_shape(self):
         self.current_shape = self.next_shape
         self.next_shape = random.choice(self.shapes)

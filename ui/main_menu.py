@@ -1,7 +1,6 @@
 import pygame
 
 from game.game_processor import GameProcessor
-from ui.pause_menu import PauseMenu
 from ui.score_table import ScoreTable
 
 
@@ -39,12 +38,6 @@ class MainMenu:
         print("Starting new game...")
         processor = GameProcessor(self, self.screen)
         processor.run()
-
-    def pause_game(self):
-        # Пауза игры
-        print("Pausing game...")
-        pause_menu = PauseMenu(self.screen)
-        pause_menu.run()
 
     def draw_menu(self):
         self.screen.fill((0, 0, 0))

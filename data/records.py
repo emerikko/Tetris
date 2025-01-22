@@ -7,7 +7,7 @@ class Records:
 
     def load_records(self):
         try:
-            with open(self.filename, mode='r') as file:
+            with open(self.filename, mode='r', encoding='utf-8') as file:
                 reader = csv.reader(file)
                 return list(reader)
         except FileNotFoundError:
