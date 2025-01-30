@@ -1,5 +1,6 @@
 import csv
 
+
 class Records:
     def __init__(self, filename='records.csv'):
         self.filename = filename
@@ -13,8 +14,8 @@ class Records:
         except FileNotFoundError:
             return []
 
-    def save_record(self, name, score):
-        self.records.append([name, score])
+    def save_record(self, level, score):
+        self.records.append([level, score])
         self.records.sort(key=lambda x: int(x[1]), reverse=True)
         with open(self.filename, mode='w', newline='') as file:
             writer = csv.writer(file)

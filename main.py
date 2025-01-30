@@ -1,14 +1,9 @@
-import pygame
-from ui.main_menu import MainMenu
+from game.app import App
 
 
 def main():
-    pygame.init()
-    screen = pygame.display.set_mode((800, 600))
-    pygame.display.set_caption("Tetris")
-
-    main_menu = MainMenu(screen)
-    main_menu.run()
+    app = App()
+    app.run()
 
 
 if __name__ == "__main__":

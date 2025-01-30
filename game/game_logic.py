@@ -4,7 +4,8 @@ import random
 
 
 class GameLogic:
-    def __init__(self):
+    def __init__(self, audio):
+        self.audio = audio
         self.score = 0
         self.level = 1
         self.current_shape_offset = (0, 0)
@@ -71,10 +72,9 @@ class GameLogic:
                 y -= 1
         
         if lines_cleared > 0:
+            self.audio.play_line_clear_sound()
             self.add_score(lines_cleared)
             self.increase_difficulty()
-        
-        return lines_cleared
 
     def increase_difficulty(self):
         self.level += 1
@@ -87,7 +87,7 @@ class GameLogic:
                     board_x = self.current_shape_offset[0] + x
                     if (board_y >= len(self.board) or
                         board_x < 0 or board_x >= len(self.board[0]) or
-                        self.board[board_y][board_x]):
+                            self.board[board_y][board_x]):
                         return True
         return False
 

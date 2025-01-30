@@ -1,28 +1,20 @@
 import pygame
 
-from data.settings import Settings
 from game.game_logic import GameLogic
-from graphics.drawing import Drawing
-from sound.audio import Audio
-from ui.pause_menu import PauseMenu, LoseMenu
-from ui.score_table import ScoreTable
+from game import drawing
 
 
 class GameProcessor:
-    def __init__(self, main_menu, screen):
-        self.main_menu = main_menu
-        self.screen = screen
-        self.game_logic = GameLogic()
-        self.audio = Audio()
-        self.settings = Settings()
-        self.drawing = Drawing(screen)
-        self.score_table = ScoreTable(screen)
-        self.pause_menu = PauseMenu(screen, self)
-        self.lose_menu = LoseMenu(screen, self)
+    def __init__(self, app):
+        self.app = app
+        self.drawing = drawing.Drawing(self.app.screen)
+        self.game_logic = GameLogic(self.app.audio)
+        self.running = False
 
     def run(self):
         self.running = True
-        self.main_menu.running = False
+        self.app.audio.play_background_music()
+        print('Game Processor is started...')
         clock = pygame.time.Clock()
 
         ticks = 0
@@ -30,14 +22,14 @@ class GameProcessor:
         while self.running:
             ticks += 1
 
-            if move_down or ticks % (50 // self.game_logic.level ** (1 / 2)) == 0:
+            if move_down or ticks % (50 // self.game_logic.level ** (1 / 4)) == 0:
                 if not self.game_logic.move_down():
                     self.lose()
 
             self.game_logic.update()
 
             pygame.display.flip()
-            self.screen.fill((0, 0, 0))  # Очистка экрана
+            self.app.screen.fill((0, 0, 0))  # Очистка экрана
             self.drawing.draw_board(self.game_logic.board)
             self.drawing.draw_shape(self.game_logic.current_shape,
                                     self.game_logic.current_shape_offset)
@@ -65,14 +57,20 @@ class GameProcessor:
 
             clock.tick(100)
 
-    def lose(self):
+    def stop(self):
+        self.app.audio.stop_background_music()
         self.running = False
-        self.pause_menu.running = False
-        self.lose_menu.run()
 
     def pause(self):
-        self.pause_menu.run()
-    
+        self.stop()
+        self.app.pause_menu.run()
+
+    def lose(self):
+        self.stop()
+        self.app.records.save_record(self.game_logic.level, self.game_logic.score)
+        self.app.lose_menu.run()
+
     def restart(self):
+        self.stop()
         self.game_logic = GameLogic()
-        self.running = True
+        self.run()
