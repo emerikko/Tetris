@@ -1,6 +1,6 @@
-import pygame
-
 import random
+
+import pygame
 
 
 class GameLogic:
@@ -29,6 +29,13 @@ class GameLogic:
 
         return True
 
+    def move_shape(self, dx, dy):
+        new_offset = (self.current_shape_offset[0] + dx, self.current_shape_offset[1] + dy)
+        old_offset = self.current_shape_offset
+        self.current_shape_offset = new_offset
+        if self.check_collision():
+            self.current_shape_offset = old_offset
+
     def move_down(self):
         # Передвижение текущей фигуры вниз
         self.current_shape_offset = (self.current_shape_offset[0], self.current_shape_offset[1] + 1)
@@ -42,12 +49,11 @@ class GameLogic:
                 return False  # Игра окончена
 
         return True
-
     def generate_new_shape(self):
         self.current_shape = self.next_shape
         self.next_shape = random.choice(self.shapes)
         self.current_shape_offset = (len(self.board[0]) // 2 - len(self.current_shape[0]) // 2, 0)
-        
+
         if self.check_collision():
             return False  # Игра окончена
         return True
@@ -70,7 +76,7 @@ class GameLogic:
                 self.board.insert(0, [False] * len(self.board[0]))
             else:
                 y -= 1
-        
+
         if lines_cleared > 0:
             self.audio.play_line_clear_sound()
             self.add_score(lines_cleared)
@@ -97,17 +103,10 @@ class GameLogic:
         elif event.key == pygame.K_RIGHT:
             self.move_shape(1, 0)
         elif event.key == pygame.K_DOWN:
-            self.move_shape(0, 1)
+            self.move_down()
         elif event.key == pygame.K_UP:
             self.rotate_shape()
 
-    def move_shape(self, dx, dy):
-        new_offset = (self.current_shape_offset[0] + dx, self.current_shape_offset[1] + dy)
-        old_offset = self.current_shape_offset
-        self.current_shape_offset = new_offset
-        if self.check_collision():
-            self.current_shape_offset = old_offset
-        
     def rotate_shape(self):
         old_shape = self.current_shape
         self.current_shape = list(zip(*self.current_shape[::-1]))

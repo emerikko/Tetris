@@ -17,7 +17,7 @@ class Drawing:
                     color = (50, 50, 50)  # Серый цвет для пустых клеток
                 pygame.draw.rect(self.screen, color,
                                  (x * block_size, y * block_size, block_size, block_size), 0)
-    
+
     def draw_board_borders(self, board):
         # Отрисовка рамок поля
         block_size = 30
@@ -46,7 +46,7 @@ class Drawing:
                     pygame.draw.rect(self.screen, (0, 255, 0),
                                      (x * block_size + offset[0] * block_size,
                                       y * block_size + offset[1] * block_size, block_size, block_size), 0)
-    
+
     def draw_ui(self, score, level, next_shape):
         # Отрисовка интерфейса (очки, уровень, следующая фигура)
         score_text = self.font.render(f"Score: {score}", True, (255, 255, 255))

@@ -17,7 +17,6 @@ class Records:
     def save_record(self, level, score):
         self.records.append([level, score])
         self.records.sort(key=lambda x: int(x[1]), reverse=True)
-        with open(self.filename, mode='w', newline='') as file:
+        with open(self.filename, mode='w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
             writer.writerows(self.records[:10])  # Сохраняем только топ-10 рекордов
-            

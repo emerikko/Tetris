@@ -9,7 +9,6 @@ class LoseMenu:
 
     def run(self):
         self.running = True
-        print('Lose Menu is started...')
         while self.running:
             self.app.game_processor.stop()
             for event in pygame.event.get():
@@ -31,28 +30,20 @@ class LoseMenu:
 
     def resume_game(self):
         # Возобновление игры
-        print("Resuming game...")
         self.stop()
         self.app.game_processor.run()
 
     def restart_game(self):
         # Перезапуск игры
-        print("Restarting game...")
         self.running = False
         self.app.game_processor.restart()
         self.app.game_processor.run()
 
     def return_to_main_menu(self):
         # Возврат в главное меню
-        print("Returning to main menu...")
         self.running = False
         self.app.game_processor.stop()
         self.app.main_menu.run()
-
-    def pause_game(self):
-        # Пауза игры
-        print("Pausing game...")
-        self.run()
 
     def draw_menu(self):
         self.app.screen.fill((0, 0, 0))  # Чёрный фон
@@ -66,18 +57,14 @@ class LoseMenu:
 
 
 class PauseMenu(LoseMenu):
-    def __init__(self, app):
-        super().__init__(app)
 
     def run(self):
         self.running = True
-        print('Pause Menu is running...')
         while self.running:
             self.app.game_processor.stop()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.app.audio.play_click_sound()
-                    self.stop()
+                    self.app.stop()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_1:
                         self.app.audio.play_click_sound()
@@ -94,20 +81,14 @@ class PauseMenu(LoseMenu):
 
     def restart_game(self):
         # Перезапуск игры
-        print("Restarting game...")
         self.running = False
         self.app.game_processor.restart()
 
     def return_to_main_menu(self):
         # Возврат в главное меню
-        print("Returning to main menu...")
         self.stop()
         self.app.game_processor.stop()
         self.app.main_menu.run()
-
-    def pause_game(self):
-        # Пауза игры
-        print("Pausing game...")
 
     def draw_menu(self):
         self.app.screen.fill((0, 0, 0))  # Чёрный фон

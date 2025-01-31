@@ -19,4 +19,3 @@ class Audio:
 
     def play_click_sound(self):
         self.click_sound.play()
-

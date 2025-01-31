@@ -14,7 +14,6 @@ class GameProcessor:
     def run(self):
         self.running = True
         self.app.audio.play_background_music()
-        print('Game Processor is started...')
         clock = pygame.time.Clock()
 
         ticks = 0
@@ -38,21 +37,21 @@ class GameProcessor:
                                  self.game_logic.next_shape)
 
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
+                if event.type is pygame.QUIT:
+                    self.app.stop()
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_p or event.key == pygame.K_ESCAPE:
+                    if event.key in (pygame.K_p, pygame.K_ESCAPE):
                         self.pause()
-                    elif event.key == (pygame.K_a or pygame.K_LEFT):
+                    elif event.key in (pygame.K_a, pygame.K_LEFT):
                         self.game_logic.move_shape(-1, 0)
-                    elif event.key == (pygame.K_d or pygame.K_RIGHT):
+                    elif event.key in (pygame.K_d, pygame.K_RIGHT):
                         self.game_logic.move_shape(1, 0)
-                    elif event.key == (pygame.K_s or pygame.K_DOWN):
+                    elif event.key in (pygame.K_s, pygame.K_DOWN):
                         move_down = True
-                    elif event.key == (pygame.K_w or pygame.K_UP):
+                    elif event.key in (pygame.K_w, pygame.K_UP):
                         self.game_logic.rotate_shape()
                 elif event.type == pygame.KEYUP:
-                    if event.key == (pygame.K_s or pygame.K_DOWN):
+                    if event.key in (pygame.K_s, pygame.K_DOWN):
                         move_down = False
 
             clock.tick(100)
@@ -72,5 +71,5 @@ class GameProcessor:
 
     def restart(self):
         self.stop()
-        self.game_logic = GameLogic()
+        self.game_logic = GameLogic(self.app.audio)
         self.run()

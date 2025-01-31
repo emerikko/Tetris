@@ -22,3 +22,9 @@ class App:
 
     def run(self):
         self.main_menu.run()
+
+    def stop(self):
+        self.game_processor.stop()
+        self.main_menu.stop()
+        self.pause_menu.stop()
+        self.lose_menu.stop()

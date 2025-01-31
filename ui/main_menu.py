@@ -9,16 +9,14 @@ class MainMenu:
 
     def run(self):
         self.running = True
-        print('Main Menu is ready...')
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.app.audio.play_click_sound()
-                    self.stop()
+                    self.app.stop()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_1:
                         self.app.audio.play_click_sound()
-                        self.app.game_processor.run()
+                        self.app.game_processor.restart()
                     elif event.key == pygame.K_2:
                         self.app.audio.play_click_sound()
                         self.app.score_table.run()

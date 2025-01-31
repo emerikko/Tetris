@@ -9,12 +9,10 @@ class ScoreTable:
 
     def run(self):
         self.running = True
-        print('Score Table is running...')
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.app.audio.play_click_sound()
-                    self.running = False
+                    self.app.stop()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.app.audio.play_click_sound()
