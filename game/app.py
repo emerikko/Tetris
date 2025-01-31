@@ -28,3 +28,4 @@ class App:
         self.main_menu.stop()
         self.pause_menu.stop()
         self.lose_menu.stop()
+        self.score_table.stop()
